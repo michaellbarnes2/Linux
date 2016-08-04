@@ -1,0 +1,39 @@
+Steps to install HaProxy on Ubuntu 14
+
+
+Network Details –
+
+Below is our network server. There are 2 web servers running with Apache2 and listening on port 80 and one HAProxy server.
+
+Web Server Details:
+
+Server 1:    web1.example.com     192.168.0.100
+Server 2:    web2.example.com     192.168.0.101
+
+
+HAProxy Server: 
+
+HAProxy:     haproxy              192.168.0.10
+
+
+
+$ sudo apt-get update
+$ sudo add-apt-repository ppa:vbernat/haproxy-1.5
+$ sudo apt-get update
+$ sudo apt-get install haproxy
+
+
+# cd /etc/haproxy/
+# rm -r haproxy.cfg
+# git clone https://github.com/michaellbarnes2/Linux/haproxy.git
+
+Step 4 – Restart HAProxy
+
+Now you have made all necessary changes in your HAProxy server. Now verify configuration file before restarting service using following command.
+
+$ haproxy -c -f /etc/haproxy/haproxy.cfg
+
+If above command returned output as configuration file is valid then restart HAProxy service
+
+$ sudo service haproxy restart
+
