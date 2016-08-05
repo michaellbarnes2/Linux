@@ -1,0 +1,108 @@
+
+1. Install OS 
+2. configure networing (update /etc/network/interfaces and etc/hosts file)
+2. Install Saltmaster and minion
+3. Run update\upgrade
+4. install virtualbox-guest software
+5. Install NTP on all servers
+
+controller node edit: /etc/ntp.conf and remove nopeer noquery for restrict
+-4 and -6
+and restart service
+
+
+compute and network node edit: /etc/ntp.conf comment out all the servers
+insert " server controller iburst"
+
+under fallback enter the same info
+insert " server controller iburst"
+
+
+6 Install MYSQL controller
+      - python-mysqldb
+      - mysql-server
+
+
+7 install MYSQL (controller and compute)
+	-python-mysqldb
+
+8 install Rabbitmq (controller )
+	sudo apt-get install rabbitmq-server
+
+
+Salt procedure to run a state formula: ( This is telling salt to run a state formula
+called service)
+ 
+sudo salt '*' state.sls service
+
+____________________________________________________________
+
+OPENSTACK_PKG_INSTALL:
+  pkg.installed
+    - pkgs:
+      - chrony
+      - python-mysqldb
+      - mysql-server
+      - python-mysqldb
+      - rabbitmq-server
+
+LAMP_INSTALL:
+  pkg.installed:
+    - pkgs:
+      - apache2
+      - php5
+      - php5-mysql
+/etc/apache2/apache2.conf:
+  file.managed:
+    - source: salt://apache2.conf
+    - mode: 644
+    - user: root
+    - group: root
+
+SERVICE_STATUS:
+apache2:
+  service.running: []
+
+
+= Hot to add master ip adress to the minion config file
+ sudo sh -c "echo 'master: 192.168.0.148' >> /etc/salt/minion"
+
+
+
+apt-get update:
+  cmd:
+    - run
+apt-get upgrade:
+  cmd:
+    - run
+apt-get dist-upgrade:
+  cmd:
+    - run
+apt-add-repository ppa:cloud-installer/stable
+  cmd:
+    - run
+apt-get update:
+  cmd:
+    - run
+apt-get install openstack
+  cmd:
+    - run
+
+salt 'minion01' state.sls openstack
+
+pkg.upgrade:
+    module.run:
+        - refresh: True
+
+-how to run a top.sls file
+sudo salt '*' state.highstate
+
+
+
+salt -E '.*' cmd.run 'sudo apt-get update'
+salt -E '.*' cmd.run 'sudo apt-get upgrade'
+salt '*' pkg.install pkgs='["virtualbox-guest-dkms", "virtualbox-guest-utils", "virtualbox-guest-x11"]'
+
+-restart apache service
+ sudo salt '*' cmd.run "sudo service apache2 restart"
+
