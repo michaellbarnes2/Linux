@@ -1,0 +1,71 @@
+
+https://help.ubuntu.com/lts/clouddocs/installer/en/single-install.html
+
+
+install ubuntu desktop 14.0.4.3 ??????
+you absolutely need more than 8gb if installing on desktop
+
+
+sudo apt install openssh-server
+sudo apt update                   
+
+sudo apt upgrade
+
+sudo apt dist-upgrade
+
+sudo apt-add-repository ppa:cloud-installer/stable
+sudo apt-get update
+
+sudo apt-get install openstack
+
+configure manual netork configurations
+reboot server
+
+sudo openstack-install
+
+
+DETAILED INSTRUCTIONS OF INSTALL
+
+Pre-requisites
+Add the OpenStack installer ppa to your system.
+
+$ sudo apt-add-repository ppa:cloud-installer/stable
+$ sudo apt-get update
+Note: The host system must be capable of supporting KVM and nested KVM.
+
+Hardware
+The installer would work best with at least:
+
+12G RAM (Hard requirement, see note below.)
+100G HDD (SSD for optimal performance)
+8 CPUs
+Note: If running on a system with less than 12G of RAM expect to run into deployment issues early. Currently, 12G is the absolute lowest one can go to ensure a deployment will succeed.
+
+Installation
+Install the OpenStack installer via apt-get
+
+$ sudo apt-get install openstack
+Start the installation
+To start the installation run the following command
+
+$ sudo openstack-install
+An initial dialog box will appear asking you to select which type of install, choose Single system.
+
+Setting a password
+
+When asked to set the OpenStack password it should be noted that this password is used throughout all OpenStack related services (ie Horizon login password).
+
+Installing of Services
+The installer will run through a series of steps starting with making sure the necessary bits are available for a single system installation and ending with a juju bootstrapped system.
+
+When the bootstrapping has finished it will immediately load the status screen. From there you can see the nodes listed along with the deployed charms necessary to start your private OpenStack cloud.
+
+Adding additional compute nodes, block storage, object storage, and controllers can be done by pressing A and making the selection on the dialog box.
+
+Finally, once those nodes are displayed and the charms deployed the horizon dashboard will be available to you for managing your OpenStack cloud.
+
+Logging into Horizon (Openstack Dashboard)
+The IP address of Horizon is located at the bottom of the status screen along with your login and password credentials. For example, the login credentials for the dashboard are:
+
+username: ubuntu password: "password that was set during installation"
+
