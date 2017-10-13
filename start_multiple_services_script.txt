@@ -1,0 +1,44 @@
+#!/bin/bash
+# chkconfig: 234 20 80
+# description: Tomcat Staggered Start
+
+start() {
+    # hepb
+    echo "Starting Prod HEPB"
+    service hepb start
+    sleep 15
+
+    # testhepb
+    echo "Starting Test HEPB"
+    service testhepb start
+    sleep 15
+
+    echo "Done."
+}
+
+stop() {
+    # hepb
+    echo "Stopping Prod HEPB"
+    service hepb stop
+    sleep 1
+
+    # testhepb
+    echo "Stopping Test HEPB"
+    service testhepb stop
+    sleep 1
+
+    echo "Done."
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    *)
+        echo "Usage: $0 {start|stop}"
+esac
+
+~
